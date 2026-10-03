@@ -2,6 +2,9 @@
 
 name: build KCC for windows
 
+permissions:
+  contents: write
+
 on:
   workflow_dispatch:
   push:
