@@ -10,6 +10,40 @@ Most manga conversion methods for ereaders add margins. But KCC enables true ful
 [![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/ciromattia/kcc/docker-publish.yml?label=docker%20build)](https://github.com/ciromattia/kcc/pkgs/container/kcc)
 [![Github All Releases](https://img.shields.io/github/downloads/ciromattia/kcc/total.svg)](https://github.com/ciromattia/kcc/releases)
 
+---
+
+## 🇨🇳 中文版改造说明（本仓库特有）
+
+本仓库基于官方 [ciromattia/kcc](https://github.com/ciromattia/kcc) v12.0.0 深度定制，专为中文墨水屏用户打造：
+
+### ✨ 1. 界面完全简体中文
+- 主窗口、悬停提示、元数据编辑器、日志消息、错误对话框等**所有界面文字**均已翻译为简体中文
+- 程序启动后**默认中文**，不保留任何英文语言入口，开箱即用
+
+### 📱 2. 精简 Kindle 机型，聚焦主流
+- **移除** Kobo 全系与 reMarkable 全系机型
+- Kindle 仅保留四大主流系列：**Oasis / Scribe / Paperwhite / Colorsoft**，列表更清爽、选择更高效
+
+### 🆕 3. 新增掌阅（iReader）全系列
+- 同分辨率机型**智能并列**，一条顶多条，如 `Ocean 2 / 3 / 3 Turbo / 4 / 4 Turbo`
+- 彩色 C 后缀机型（Kaleido 3 屏）单独列出，自动启用彩色模式
+- 覆盖 Ocean 1~5、Ocean 4 Plus、Leaf 2~5 全家族
+
+### ➕ 4. 补充汉王 & 文石 BOOX 机型
+- **汉王**：Clear 6 / 6 Pro / 6 Turbo、Clear 7 / 7 Turbo / 7 Turbo+ / 7C
+- **文石 BOOX**：Poke 2/3/4/4 Lite/5、Go 6/7、Page、Go Color 7
+- 展示规则与掌阅一致：同分辨率并列、彩色单独、按面板代际细分
+- 所有国产机型默认输出 **EPUB**，300 PPI 设备默认开启放大
+
+### 🔕 5. 彻底禁用更新检测
+- 不再请求 GitHub API 检查新版本，也不再推送任何推广公告
+- 修改版永不弹「有新版本」提示，使用体验零打扰
+
+### 📦 获取
+各平台成品见 [Releases](https://github.com/gaoqiaomz/kcc-cn/releases)：
+`KCC_12.0.0.exe`（Windows x64）· `kcc_macos_arm_12.0.0.dmg`（macOS Apple Silicon）· Linux AppImage
+
+---
 
 **Kindle Comic Converter** optimizes black & white (or color) comics and manga for E-ink ereaders 
 like Kindle, Kobo, ReMarkable, and more.
