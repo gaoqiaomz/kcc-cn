@@ -6,9 +6,9 @@ Most manga conversion methods for ereaders add margins. But KCC enables true ful
 
 # KCC
 
-[![GitHub release](https://img.shields.io/github/release/ciromattia/kcc.svg)](https://github.com/ciromattia/kcc/releases)
-[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/ciromattia/kcc/docker-publish.yml?label=docker%20build)](https://github.com/ciromattia/kcc/pkgs/container/kcc)
-[![Github All Releases](https://img.shields.io/github/downloads/ciromattia/kcc/total.svg)](https://github.com/ciromattia/kcc/releases)
+[![GitHub release](https://img.shields.io/github/release/gaoqiaomz/kcc-cn.svg)](https://github.com/gaoqiaomz/kcc-cn/releases)
+[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/gaoqiaomz/kcc-cn/package-windows.yml?label=windows%20build)](https://github.com/gaoqiaomz/kcc-cn/actions/workflows/package-windows.yml)
+[![Github All Releases](https://img.shields.io/github/downloads/gaoqiaomz/kcc-cn/total.svg)](https://github.com/gaoqiaomz/kcc-cn/releases)
 
 ---
 
