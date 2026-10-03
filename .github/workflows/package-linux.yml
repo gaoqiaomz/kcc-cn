@@ -1,0 +1,96 @@
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
+
+name: build KCC for Linux
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "v*.*.*"
+
+    # Don't trigger if it's just a documentation update
+    paths-ignore:
+      - '**.md'
+      - '**.MD'
+      - '**.yml'
+      - '**.sh'
+      - 'docs/**'
+      - 'Dockerfile'
+      - 'LICENSE'
+      - '.gitattributes'
+      - '.gitignore'
+      - '.dockerignore'
+
+permissions:
+  contents: write
+
+jobs:
+  build-appimage:
+    name: Build AppImage (${{ matrix.arch }})
+    runs-on: ${{ matrix.runs-on }}
+
+    strategy:
+      matrix:
+        include:
+          - runs-on: ubuntu-22.04
+            arch: x86_64
+          - runs-on: ubuntu-22.04-arm
+            arch: aarch64
+
+    container: ghcr.io/pkgforge-dev/archlinux:latest
+    steps:
+    - uses: actions/checkout@v7
+
+    - name: Prepare container
+      uses: pkgforge-dev/anylinux-setup-action@v5
+
+    - name: Install dependencies
+      run: |
+        pacman -Syu --noconfirm
+        pacman -S --noconfirm python-pip pyside6 qt6ct kvantum lxqt-qtplugin python-natsort python-numpy python-pillow python-psutil python-pymupdf python-requests python-slugify python-setuptools
+        get-debloated-pkgs --add-common --prefer-nano
+
+    - name: Install kcc
+      run: |
+        python -m pip install --break-system-packages .
+
+    - name: Determine version
+      id: version
+      run: |
+        echo "version=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
+
+    - name: Build AppImage
+      env:
+        ARCH: ${{ matrix.arch }}
+        ICON: ${{ github.workspace }}/icons/comic2ebook.png
+        DESKTOP: ${{ github.workspace }}/packaging/appimage/kcc.desktop
+        DEPLOY_PYTHON: 1
+        OUTPATH: ${{ github.workspace }}/dist
+        OUTNAME: kcc_linux-${{ steps.version.outputs.version }}-${{ matrix.arch }}.AppImage
+        UPINFO: gh-releases-zsync|ciromattia|kcc|latest|*${{ matrix.arch }}.AppImage.zsync
+      run: |
+        mkdir -p dist
+        quick-sharun "$(which kcc)" /usr/lib/libQt6Gui.so*
+        quick-sharun --make-appimage
+
+    - name: Test AppImage
+      run: |
+        quick-sharun --simple-test ./dist/*.AppImage
+
+    - name: upload artifact
+      uses: actions/upload-artifact@v7
+      with:
+          name: kcc-${{ steps.version.outputs.version }}-${{ matrix.arch }}
+          path: |
+            dist/*.AppImage
+            dist/*.AppImage.zsync
+
+    - name: Release
+      uses: softprops/action-gh-release@v3
+      if: startsWith(github.ref, 'refs/tags/')
+      with:
+        prerelease: true
+        generate_release_notes: false
+        files: |
+          dist/*.AppImage
+          dist/*.AppImage.zsync
